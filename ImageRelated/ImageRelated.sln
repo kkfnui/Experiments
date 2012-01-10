@@ -9,6 +9,8 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "LoadAndShowBitmap2", "LoadA
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Clock", "Clock\Clock.vcproj", "{7594E8C7-C369-47F8-B7AF-C6B6B307D8A3}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "ImageLayers", "ImageLayers\ImageLayers.vcproj", "{71636867-7DEA-4573-B777-927612A45EE1}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Win32 = Debug|Win32
@@ -31,6 +33,10 @@ Global
 		{7594E8C7-C369-47F8-B7AF-C6B6B307D8A3}.Debug|Win32.Build.0 = Debug|Win32
 		{7594E8C7-C369-47F8-B7AF-C6B6B307D8A3}.Release|Win32.ActiveCfg = Release|Win32
 		{7594E8C7-C369-47F8-B7AF-C6B6B307D8A3}.Release|Win32.Build.0 = Release|Win32
+		{71636867-7DEA-4573-B777-927612A45EE1}.Debug|Win32.ActiveCfg = Debug|Win32
+		{71636867-7DEA-4573-B777-927612A45EE1}.Debug|Win32.Build.0 = Debug|Win32
+		{71636867-7DEA-4573-B777-927612A45EE1}.Release|Win32.ActiveCfg = Release|Win32
+		{71636867-7DEA-4573-B777-927612A45EE1}.Release|Win32.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
