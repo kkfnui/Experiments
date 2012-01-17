@@ -169,14 +169,25 @@ LRESULT CMainDlg::OnPaint( UINT /*uMsg*/, WPARAM /*wParam*/, LPARAM /*lParam*/, 
 	PAINTSTRUCT ps;
 	dc = BeginPaint(&ps);
 	std::vector<CLayer*>::iterator it = m_Layers.begin();
+    CRect rect;
+    GetClientRect(&rect);
+    HDC dcMemory = CreateCompatibleDC(dc);
+    CBitmap bmp;
+    HGDIOBJ bmpOld;
+    bmp.CreateCompatibleBitmap(dc, rect.Width(), rect.Height());
+    bmpOld = SelectObject(dcMemory, bmp);
+    CDCHandle cdc(dcMemory);
+    cdc.FillSolidRect(&rect, RGB(240, 240, 240));
 	for (;it != m_Layers.end(); ++it)
 	{
 		HDC hdc = CreateCompatibleDC(dc);
 		HGDIOBJ hOld = SelectObject(hdc, (*it)->m_hBitmap);
         CRect rect = (*it)->GetArea();
-		BitBlt(dc, rect.left, rect.top, rect.Width(), rect.Height(), hdc, 0, 0, SRCCOPY);
+        BitBlt(dcMemory, rect.left, rect.top, rect.Width(), rect.Height(), hdc, 0, 0, SRCCOPY);
         SelectObject(hdc, hOld);
 	}
+    BitBlt(dc, 0, 0, rect.Width(), rect.Height(), dcMemory, 0, 0, SRCCOPY);
+    SelectObject(dcMemory, bmpOld);
 	EndPaint(&ps);
 	return S_OK;
 }
@@ -213,7 +224,7 @@ LRESULT CMainDlg::OnMouseMove( UINT /*uMsg*/, WPARAM /*wParam*/, LPARAM lParam, 
         CRect rect = m_pSelectedLayer->GetArea();
         rect.OffsetRect(xOffset, yOffset);
         m_pSelectedLayer->SetArea(rect);
-        Invalidate();
+        Invalidate(FALSE);
     }
     return S_OK;
 }
