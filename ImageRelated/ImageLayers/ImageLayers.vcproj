@@ -4,6 +4,7 @@
 	Version="9.00"
 	Name="ImageLayers"
 	ProjectGUID="{71636867-7DEA-4573-B777-927612A45EE1}"
+	RootNamespace="ImageLayers"
 	TargetFrameworkVersion="196613"
 	>
 	<Platforms>
@@ -200,6 +201,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\OperateDlg.cpp"
+				>
+			</File>
+			<File
 				RelativePath=".\stdafx.cpp"
 				>
 				<FileConfiguration
@@ -230,6 +235,10 @@
 			</File>
 			<File
 				RelativePath=".\MainDlg.h"
+				>
+			</File>
+			<File
+				RelativePath=".\OperateDlg.h"
 				>
 			</File>
 			<File

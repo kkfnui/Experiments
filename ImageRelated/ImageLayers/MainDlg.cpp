@@ -8,7 +8,7 @@
 #include "MainDlg.h"
 
 
-CMainDlg::CMainDlg( void ): m_Statu(SELECT)
+CMainDlg::CMainDlg( void )
 {
 
 }
@@ -26,7 +26,18 @@ LRESULT CMainDlg::OnInitDialog(UINT /*uMsg*/, WPARAM /*wParam*/, LPARAM /*lParam
 	HICON hIconSmall = (HICON)::LoadImage(_Module.GetResourceInstance(), MAKEINTRESOURCE(IDR_MAINFRAME), 
 		IMAGE_ICON, ::GetSystemMetrics(SM_CXSMICON), ::GetSystemMetrics(SM_CYSMICON), LR_DEFAULTCOLOR);
 	SetIcon(hIconSmall, FALSE);
-
+    m_operateDlg = new COperateDlg;
+    m_operateDlg->Create(m_hWnd);
+    m_operateDlg->ShowWindow(SW_NORMAL);
+    m_operateDlg->SetMainDlg(this);
+    CRect rect;
+    rect.left = 0;
+    rect.top = 40;
+    rect.right = 750;
+    rect.bottom = 680;
+   
+    //ClientToScreen(&rect);
+    m_operateDlg->MoveWindow(&rect);
 	return TRUE;
 }
 
@@ -98,7 +109,7 @@ LRESULT CMainDlg::OnOK(WORD /*wNotifyCode*/, WORD wID, HWND /*hWndCtl*/, BOOL& /
 	layer->SetArea(rect);
 	Invalidate();
 	m_Layers.push_back(layer);
-    m_Statu = PREMOVE;
+    SendMessage(m_operateDlg->m_hWnd, ID_SELECT, NULL, NULL);
 	return 0;
 }
 
@@ -192,48 +203,11 @@ LRESULT CMainDlg::OnPaint( UINT /*uMsg*/, WPARAM /*wParam*/, LPARAM /*lParam*/, 
 	return S_OK;
 }
 
-LRESULT CMainDlg::OnLeftButtonDown( UINT /*uMsg*/, WPARAM /*wParam*/, LPARAM lParam, BOOL& /*bHandled*/ )
-{
-    CPoint pt(GET_X_LPARAM(lParam), GET_Y_LPARAM(lParam));
-    if (m_Statu == PREMOVE)
-    {
-        std::vector<CLayer*>::iterator it = m_Layers.begin();
-        for (;it != m_Layers.end(); ++it)
-        {
-            CRect rect = (*it)->GetArea();
-            if (rect.PtInRect(pt))
-            {
-                m_pSelectedLayer = *it;
-                break;
-            }
-        }
-        m_ptLastClicked = pt;
-        m_Statu = MOVE;
-    }
-    return S_OK;
-}
 
-LRESULT CMainDlg::OnMouseMove( UINT /*uMsg*/, WPARAM /*wParam*/, LPARAM lParam, BOOL& /*bHandled*/ )
+CMainDlg::~CMainDlg()
 {
-    CPoint pt(GET_X_LPARAM(lParam), GET_Y_LPARAM(lParam));
-    if (m_Statu == MOVE)
+    if (m_operateDlg != NULL)
     {
-        int xOffset = pt.x - m_ptLastClicked.x;
-        int yOffset = pt.y - m_ptLastClicked.y;
-        m_ptLastClicked = pt;
-        CRect rect = m_pSelectedLayer->GetArea();
-        rect.OffsetRect(xOffset, yOffset);
-        m_pSelectedLayer->SetArea(rect);
-        Invalidate(FALSE);
+        delete m_operateDlg;
     }
-    return S_OK;
-}
-
-LRESULT CMainDlg::OnLeftButtonUp( UINT /*uMsg*/, WPARAM /*wParam*/, LPARAM /*lParam*/, BOOL& /*bHandled*/ )
-{
-    if (m_Statu == MOVE)
-    {
-        m_Statu = SELECT;
-    }
-    return S_OK;
 }
