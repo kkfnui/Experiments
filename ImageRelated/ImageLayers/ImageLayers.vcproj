@@ -265,5 +265,9 @@
 		</Filter>
 	</Files>
 	<Globals>
+		<Global
+			Name="RESOURCE_FILE"
+			Value="ImageLayers.rc"
+		/>
 	</Globals>
 </VisualStudioProject>

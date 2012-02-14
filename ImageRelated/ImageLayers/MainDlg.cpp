@@ -35,8 +35,6 @@ LRESULT CMainDlg::OnInitDialog(UINT /*uMsg*/, WPARAM /*wParam*/, LPARAM /*lParam
     rect.top = 40;
     rect.right = 750;
     rect.bottom = 680;
-   
-    //ClientToScreen(&rect);
     m_operateDlg->MoveWindow(&rect);
 	return TRUE;
 }
@@ -50,19 +48,14 @@ LRESULT CMainDlg::OnAppAbout(WORD /*wNotifyCode*/, WORD /*wID*/, HWND /*hWndCtl*
 
 LRESULT CMainDlg::OnOK(WORD /*wNotifyCode*/, WORD wID, HWND /*hWndCtl*/, BOOL& /*bHandled*/)
 {
-    //获取资源图片的路径，相对程序的地址
-    TCHAR szPath[MAX_PATH] = {0};
-    GetModuleFileName(NULL, szPath, MAX_PATH);
-    PathRemoveFileSpec(szPath);
-    PathRemoveFileSpec(szPath);
-    PathCombine(szPath, szPath, L"Res\\1.bmp");
+    CFileDialog fileOpenDlg(TRUE, _T(".bmp"), NULL, OFN_HIDEREADONLY|OFN_OVERWRITEPROMPT, _T("BMP图片文件\0*.bmp\0\0"), NULL);
 
-    if (!PathFileExists(szPath))
+    if (fileOpenDlg.DoModal() == IDCANCEL)
     {
         return S_FALSE;
     }
 
-    HANDLE hFile = CreateFile(szPath, 
+    HANDLE hFile = CreateFile(fileOpenDlg.m_szFileName, 
         GENERIC_READ,
         FILE_SHARE_READ, 
         NULL, 
