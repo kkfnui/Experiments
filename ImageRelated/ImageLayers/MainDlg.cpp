@@ -18,7 +18,6 @@ LRESULT CMainDlg::OnInitDialog(UINT /*uMsg*/, WPARAM /*wParam*/, LPARAM /*lParam
 {
 	// center the dialog on the screen
 	CenterWindow();
-
 	// set icons
 	HICON hIcon = (HICON)::LoadImage(_Module.GetResourceInstance(), MAKEINTRESOURCE(IDR_MAINFRAME), 
 		IMAGE_ICON, ::GetSystemMetrics(SM_CXICON), ::GetSystemMetrics(SM_CYICON), LR_DEFAULTCOLOR);
@@ -30,6 +29,9 @@ LRESULT CMainDlg::OnInitDialog(UINT /*uMsg*/, WPARAM /*wParam*/, LPARAM /*lParam
     m_operateDlg->Create(m_hWnd);
     m_operateDlg->ShowWindow(SW_NORMAL);
     m_operateDlg->SetMainDlg(this);
+    
+    m_list.Attach(GetDlgItem(IDC_LIST_IMAGE_LAYERS));
+    m_list.InsertColumn(0, L"layer name", LVCFMT_LEFT, -1);
     CRect rect;
     rect.left = 0;
     rect.top = 40;
@@ -98,10 +100,15 @@ LRESULT CMainDlg::OnOK(WORD /*wNotifyCode*/, WORD wID, HWND /*hWndCtl*/, BOOL& /
 	rect.left = 50;
 	rect.top = 150;
 	rect.bottom = 500;
-	rect.right = 400;
+	rect.right = 400; 
+
 	layer->SetArea(rect);
 	Invalidate();
 	m_Layers.push_back(layer);
+
+    CString strTitle;
+    strTitle.Format(L"ͼƬ%d", m_Layers.size()-1);
+    int nId = m_list.InsertItem(m_Layers.size()-1, strTitle);
     SendMessage(m_operateDlg->m_hWnd, ID_SELECT, NULL, NULL);
 	return 0;
 }
@@ -203,4 +210,16 @@ CMainDlg::~CMainDlg()
     {
         delete m_operateDlg;
     }
+}
+
+LRESULT CMainDlg::OnLvnItemActivateListImageLayers(int /*idCtrl*/, LPNMHDR pNMHDR, BOOL& /*bHandled*/)
+{
+    LPNMITEMACTIVATE pNMIA = reinterpret_cast<LPNMITEMACTIVATE>(pNMHDR);
+    // TODO: Add your control notification handler code here
+    std::vector<CLayer*>::iterator it = m_Layers.begin();
+    for (int i=0; i< pNMIA->iItem; it++,i++)
+        NULL;
+    m_pSelectedLayer = *it;
+    SendMessage(m_operateDlg->m_hWnd, ID_SELECT, NULL, NULL);
+    return 0;
 }

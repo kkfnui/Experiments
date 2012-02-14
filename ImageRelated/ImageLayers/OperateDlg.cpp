@@ -112,3 +112,8 @@ void COperateDlg::SetMainDlg( CMainDlg* dlg )
 {
     m_DlgMain = dlg;
 }
+
+void COperateDlg::SetStatus( Status statu )
+{
+    m_Statu = statu;
+}

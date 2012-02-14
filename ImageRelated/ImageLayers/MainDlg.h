@@ -22,7 +22,8 @@ public:
 		COMMAND_ID_HANDLER(ID_APP_ABOUT, OnAppAbout)
 		COMMAND_ID_HANDLER(IDOK, OnOK)
 		COMMAND_ID_HANDLER(IDCANCEL, OnCancel)
-	END_MSG_MAP()
+        NOTIFY_HANDLER(IDC_LIST_IMAGE_LAYERS, LVN_ITEMACTIVATE, OnLvnItemActivateListImageLayers)
+    END_MSG_MAP()
 
 // Handler prototypes (uncomment arguments if needed):
 //	LRESULT MessageHandler(UINT /*uMsg*/, WPARAM /*wParam*/, LPARAM /*lParam*/, BOOL& /*bHandled*/)
@@ -38,10 +39,11 @@ public:
 	LRESULT OnOK(WORD /*wNotifyCode*/, WORD wID, HWND /*hWndCtl*/, BOOL& /*bHandled*/);
 	LRESULT OnCancel(WORD /*wNotifyCode*/, WORD wID, HWND /*hWndCtl*/, BOOL& /*bHandled*/);
     HBITMAP ConvertDIB2DDB(CDCHandle dc, LPBITMAPINFO bitmapInfo);
-
+    LRESULT OnLvnItemActivateListImageLayers(int /*idCtrl*/, LPNMHDR pNMHDR, BOOL& /*bHandled*/);
 private:
 	std::vector<CLayer*> m_Layers;
     CPoint m_ptLastClicked;
     CLayer* m_pSelectedLayer; 
     COperateDlg* m_operateDlg; 
+    CListViewCtrl m_list;
 };

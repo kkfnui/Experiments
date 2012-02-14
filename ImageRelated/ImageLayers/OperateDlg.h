@@ -25,6 +25,7 @@ public:
     LRESULT OnLeftButtonUp(UINT /*uMsg*/, WPARAM /*wParam*/, LPARAM /*lParam*/, BOOL& /*bHandled*/);
     LRESULT OnSelect(UINT /*uMsg*/, WPARAM /*wParam*/, LPARAM /*lParam*/, BOOL& /*bHandled*/);
     void SetMainDlg(CMainDlg * dlg);
+    void SetStatus(Status statu);
 
 private:
     CPoint m_ptLastClicked;
