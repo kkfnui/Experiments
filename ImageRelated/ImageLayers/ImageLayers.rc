@@ -54,6 +54,19 @@ FONT 8, "MS Shell Dlg", 400, 0, 0x1
 BEGIN
 END
 
+IDD_PROPERTY DIALOGEX 0, 0, 220, 108
+STYLE DS_SETFONT | DS_MODALFRAME | DS_FIXEDSYS | WS_POPUP | WS_CAPTION | WS_SYSMENU
+CAPTION "Dialog"
+FONT 8, "MS Shell Dlg", 400, 0, 0x1
+BEGIN
+    DEFPUSHBUTTON   "OK",IDOK,104,87,50,14
+    PUSHBUTTON      "Cancel",IDCANCEL,158,87,50,14
+    EDITTEXT        IDC_EDIT1,54,20,127,14,ES_AUTOHSCROLL
+    LTEXT           "名称：",IDC_STATIC,22,23,25,8
+    COMBOBOX        IDC_COMBO1,53,50,127,30,CBS_DROPDOWN | CBS_SORT | WS_VSCROLL | WS_TABSTOP
+    LTEXT           "类型：",IDC_STATIC,21,52,25,8
+END
+
 
 /////////////////////////////////////////////////////////////////////////////
 //
@@ -86,8 +99,30 @@ BEGIN
         TOPMARGIN, 7
         BOTTOMMARGIN, 262
     END
+
+    IDD_PROPERTY, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 213
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 101
+    END
 END
 #endif    // APSTUDIO_INVOKED
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Menu
+//
+
+IDR_MENU MENU 
+BEGIN
+    POPUP "属性"
+    BEGIN
+        MENUITEM "属性",                          ID_PROPERTY
+    END
+END
 
 #endif    // Chinese (P.R.C.) resources
 /////////////////////////////////////////////////////////////////////////////

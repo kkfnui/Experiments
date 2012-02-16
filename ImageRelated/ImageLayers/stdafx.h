@@ -13,14 +13,17 @@
 
 #define  _WTL_NO_CSTRING
 #include <atlstr.h>
+#include <atltypes.h>
 #include <atlbase.h>
 #include <atlapp.h>
 #include <atlwin.h>
 #include <atlframe.h>
 #include <atlctrls.h>
 #include <atldlgs.h>
-#include <atltypes.h>
-
+#include <atlcrack.h>
+#define _WTL_NO_WTYPES
+#define _WTL_NO_CSTRING
+#include <atlmisc.h>
 #include <vector>
 extern CAppModule _Module;
 

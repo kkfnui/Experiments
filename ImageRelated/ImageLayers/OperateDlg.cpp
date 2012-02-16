@@ -2,6 +2,7 @@
 #include "resource.h"
 #include "OperateDlg.h"
 #include "MainDlg.h"
+#include "PropertyDlg.h"
 
 COperateDlg::COperateDlg(void)
 {
@@ -77,11 +78,25 @@ LRESULT COperateDlg::OnLeftButtonDown( UINT /*uMsg*/, WPARAM /*wParam*/, LPARAM 
     return S_OK;
 }
 
+
+LRESULT COperateDlg::OnRightButtonUp( WPARAM wParam, CPoint point )
+{
+    CMenu menu;
+    menu.LoadMenu(IDR_MENU);
+    ClientToScreen(&point);
+    CMenuHandle menuSubAll 	= menu.GetSubMenu(0);
+    menuSubAll.TrackPopupMenu(TPM_VERTICAL|TPM_LEFTALIGN|TPM_BOTTOMALIGN, 
+        point.x, point.y, m_hWnd, NULL);
+    return S_OK;
+}
+
+
 LRESULT COperateDlg::OnMouseMove( UINT /*uMsg*/, WPARAM /*wParam*/, LPARAM lParam, BOOL& /*bHandled*/ )
 {
     CPoint pt(GET_X_LPARAM(lParam), GET_Y_LPARAM(lParam));
     if (m_Statu == MOVE)
     {
+        SetCursor(LoadCursor(NULL, IDC_CROSS));
         int xOffset = pt.x - m_ptLastClicked.x;
         int yOffset = pt.y - m_ptLastClicked.y;
         m_ptLastClicked = pt;
@@ -92,6 +107,14 @@ LRESULT COperateDlg::OnMouseMove( UINT /*uMsg*/, WPARAM /*wParam*/, LPARAM lPara
     }
     return S_OK;
 }
+
+LRESULT COperateDlg::OnSetProperty(WORD /*wNotifyCode*/, WORD /*wID*/, HWND /*hWndCtl*/, BOOL& /*bHandled*/)
+{
+    CPropertyDlg dlg;
+    dlg.DoModal();
+    return S_OK;
+}
+
 
 LRESULT COperateDlg::OnLeftButtonUp( UINT /*uMsg*/, WPARAM /*wParam*/, LPARAM /*lParam*/, BOOL& /*bHandled*/ )
 {

@@ -20,6 +20,8 @@
 			OutputDirectory="Debug"
 			IntermediateDirectory="Debug"
 			ConfigurationType="1"
+			UseOfMFC="0"
+			UseOfATL="1"
 			ATLMinimizesCRunTimeLibraryUsage="false"
 			CharacterSet="1"
 			>
@@ -205,6 +207,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\PropertyDlg.cpp"
+				>
+			</File>
+			<File
 				RelativePath=".\stdafx.cpp"
 				>
 				<FileConfiguration
@@ -239,6 +245,10 @@
 			</File>
 			<File
 				RelativePath=".\OperateDlg.h"
+				>
+			</File>
+			<File
+				RelativePath=".\PropertyDlg.h"
 				>
 			</File>
 			<File

@@ -12,18 +12,22 @@ public:
 
     BEGIN_MSG_MAP(COperateDlg)
         MESSAGE_HANDLER(WM_PAINT, OnPaint)
+        MSG_WM_RBUTTONUP(OnRightButtonUp)
         MESSAGE_HANDLER(WM_LBUTTONDOWN, OnLeftButtonDown)
         MESSAGE_HANDLER(WM_MOUSEMOVE, OnMouseMove)
         MESSAGE_HANDLER(WM_LBUTTONUP, OnLeftButtonUp)
         MESSAGE_HANDLER(ID_SELECT, OnSelect)
+        COMMAND_ID_HANDLER(ID_PROPERTY, OnSetProperty)
     END_MSG_MAP()
 
     LRESULT OnInitDialog(UINT /*uMsg*/, WPARAM /*wParam*/, LPARAM /*lParam*/, BOOL& /*bHandled*/);
     LRESULT OnPaint(UINT /*uMsg*/, WPARAM /*wParam*/, LPARAM /*lParam*/, BOOL& /*bHandled*/);
     LRESULT OnLeftButtonDown(UINT /*uMsg*/, WPARAM /*wParam*/, LPARAM /*lParam*/, BOOL& /*bHandled*/);
+    LRESULT OnRightButtonUp(WPARAM wParam, CPoint point);
     LRESULT OnMouseMove(UINT /*uMsg*/, WPARAM /*wParam*/, LPARAM /*lParam*/, BOOL& /*bHandled*/);
     LRESULT OnLeftButtonUp(UINT /*uMsg*/, WPARAM /*wParam*/, LPARAM /*lParam*/, BOOL& /*bHandled*/);
     LRESULT OnSelect(UINT /*uMsg*/, WPARAM /*wParam*/, LPARAM /*lParam*/, BOOL& /*bHandled*/);
+    LRESULT OnSetProperty(WORD /*wNotifyCode*/, WORD /*wID*/, HWND /*hWndCtl*/, BOOL& /*bHandled*/);
     void SetMainDlg(CMainDlg * dlg);
     void SetStatus(Status statu);
 

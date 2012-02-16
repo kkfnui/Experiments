@@ -6,6 +6,7 @@
 #include "resource.h"
 
 #include "MainDlg.h"
+#include "PropertyDlg.h"
 
 
 CMainDlg::CMainDlg( void )
@@ -43,8 +44,10 @@ LRESULT CMainDlg::OnInitDialog(UINT /*uMsg*/, WPARAM /*wParam*/, LPARAM /*lParam
 
 LRESULT CMainDlg::OnAppAbout(WORD /*wNotifyCode*/, WORD /*wID*/, HWND /*hWndCtl*/, BOOL& /*bHandled*/)
 {
-	CSimpleDialog<IDD_ABOUTBOX, FALSE> dlg;
-	dlg.DoModal();
+	//CSimpleDialog<IDD_ABOUTBOX, FALSE> dlg;
+	//dlg.DoModal();
+    CPropertyDlg dlg;
+    dlg.DoModal(m_hWnd);
 	return 0;
 }
 
