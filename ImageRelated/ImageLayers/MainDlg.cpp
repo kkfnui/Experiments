@@ -42,13 +42,10 @@ LRESULT CMainDlg::OnInitDialog(UINT /*uMsg*/, WPARAM /*wParam*/, LPARAM /*lParam
 	return TRUE;
 }
 
-LRESULT CMainDlg::OnAppAbout(WORD /*wNotifyCode*/, WORD /*wID*/, HWND /*hWndCtl*/, BOOL& /*bHandled*/)
+LRESULT CMainDlg::OnSave(WORD /*wNotifyCode*/, WORD /*wID*/, HWND /*hWndCtl*/, BOOL& /*bHandled*/)
 {
-	//CSimpleDialog<IDD_ABOUTBOX, FALSE> dlg;
-	//dlg.DoModal();
-    CPropertyDlg dlg;
-    dlg.DoModal(m_hWnd);
-	return 0;
+    SendMessage(m_operateDlg->m_hWnd, ID_SAVE, NULL, NULL);
+	return S_OK;
 }
 
 LRESULT CMainDlg::OnOK(WORD /*wNotifyCode*/, WORD wID, HWND /*hWndCtl*/, BOOL& /*bHandled*/)

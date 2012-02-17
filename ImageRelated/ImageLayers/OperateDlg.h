@@ -17,6 +17,7 @@ public:
         MESSAGE_HANDLER(WM_MOUSEMOVE, OnMouseMove)
         MESSAGE_HANDLER(WM_LBUTTONUP, OnLeftButtonUp)
         MESSAGE_HANDLER(ID_SELECT, OnSelect)
+        MESSAGE_HANDLER(ID_SAVE, OnSave)
         COMMAND_ID_HANDLER(ID_PROPERTY, OnSetProperty)
     END_MSG_MAP()
 
@@ -27,9 +28,11 @@ public:
     LRESULT OnMouseMove(UINT /*uMsg*/, WPARAM /*wParam*/, LPARAM /*lParam*/, BOOL& /*bHandled*/);
     LRESULT OnLeftButtonUp(UINT /*uMsg*/, WPARAM /*wParam*/, LPARAM /*lParam*/, BOOL& /*bHandled*/);
     LRESULT OnSelect(UINT /*uMsg*/, WPARAM /*wParam*/, LPARAM /*lParam*/, BOOL& /*bHandled*/);
+    LRESULT OnSave(UINT /*uMsg*/, WPARAM /*wParam*/, LPARAM /*lParam*/, BOOL& /*bHandled*/);
     LRESULT OnSetProperty(WORD /*wNotifyCode*/, WORD /*wID*/, HWND /*hWndCtl*/, BOOL& /*bHandled*/);
     void SetMainDlg(CMainDlg * dlg);
     void SetStatus(Status statu);
+    BOOL SaveBitmapFile(CString strFileName, CBitmap &bmp, CDC *pdc);
 
 private:
     CPoint m_ptLastClicked;

@@ -19,7 +19,7 @@ public:
         //MESSAGE_HANDLER(WM_LBUTTONDOWN, OnLeftButtonDown)
         //MESSAGE_HANDLER(WM_MOUSEMOVE, OnMouseMove)
         //MESSAGE_HANDLER(WM_LBUTTONUP, OnLeftButtonUp)
-		COMMAND_ID_HANDLER(ID_APP_ABOUT, OnAppAbout)
+		COMMAND_ID_HANDLER(ID_SAVE, OnSave)
 		COMMAND_ID_HANDLER(IDOK, OnOK)
 		COMMAND_ID_HANDLER(IDCANCEL, OnCancel)
         NOTIFY_HANDLER(IDC_LIST_IMAGE_LAYERS, LVN_ITEMACTIVATE, OnLvnItemActivateListImageLayers)
@@ -35,7 +35,7 @@ public:
 	//LRESULT OnLeftButtonDown(UINT /*uMsg*/, WPARAM /*wParam*/, LPARAM /*lParam*/, BOOL& /*bHandled*/);
 	//LRESULT OnMouseMove(UINT /*uMsg*/, WPARAM /*wParam*/, LPARAM /*lParam*/, BOOL& /*bHandled*/);
 	//LRESULT OnLeftButtonUp(UINT /*uMsg*/, WPARAM /*wParam*/, LPARAM /*lParam*/, BOOL& /*bHandled*/);
-	LRESULT OnAppAbout(WORD /*wNotifyCode*/, WORD /*wID*/, HWND /*hWndCtl*/, BOOL& /*bHandled*/);
+	LRESULT OnSave(WORD /*wNotifyCode*/, WORD /*wID*/, HWND /*hWndCtl*/, BOOL& /*bHandled*/);
 	LRESULT OnOK(WORD /*wNotifyCode*/, WORD wID, HWND /*hWndCtl*/, BOOL& /*bHandled*/);
 	LRESULT OnCancel(WORD /*wNotifyCode*/, WORD wID, HWND /*hWndCtl*/, BOOL& /*bHandled*/);
     HBITMAP ConvertDIB2DDB(CDCHandle dc, LPBITMAPINFO bitmapInfo);

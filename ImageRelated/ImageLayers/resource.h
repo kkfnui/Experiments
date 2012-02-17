@@ -15,6 +15,7 @@
 #define IDC_LIST_IMAGE_LAYERS           1005
 #define IDC_EDIT1                       1006
 #define IDC_COMBO1                      1007
+#define ID_SAVE                         1008
 #define ID_32775                        32775
 #define ID_32776                        32776
 #define ID_PROPERTY                     32777
@@ -25,7 +26,7 @@
 #ifndef APSTUDIO_READONLY_SYMBOLS
 #define _APS_NEXT_RESOURCE_VALUE        204
 #define _APS_NEXT_COMMAND_VALUE         32778
-#define _APS_NEXT_CONTROL_VALUE         1008
+#define _APS_NEXT_CONTROL_VALUE         1009
 #define _APS_NEXT_SYMED_VALUE           101
 #endif
 #endif

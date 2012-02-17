@@ -131,6 +131,55 @@ LRESULT COperateDlg::OnSelect(UINT /*uMsg*/, WPARAM /*wParam*/, LPARAM /*lParam*
     return S_OK;
 }
 
+
+LRESULT COperateDlg::OnSave( UINT /*uMsg*/, WPARAM /*wParam*/, LPARAM /*lParam*/, BOOL& /*bHandled*/ )
+{
+    CFileDialog fileOpenDlg(TRUE, _T(".bmp"), NULL, OFN_HIDEREADONLY|OFN_OVERWRITEPROMPT, _T("BMPÍ¼Æ¬ÎÄ¼þ\0*.bmp\0\0"), NULL);
+    if (fileOpenDlg.DoModal() == IDCANCEL)
+    {
+        return S_FALSE;
+    }
+
+    PAINTSTRUCT ps;
+    HDC dc;
+    CRect rcClient;
+    CRect rcCaven;
+    dc = BeginPaint(&ps);
+    GetClientRect(&rcClient);
+    rcCaven = rcClient;
+    rcCaven.InflateRect(-2, -2);
+
+    HDC dcMemory = CreateCompatibleDC(dc);  
+    CBitmap bmp;
+    HGDIOBJ bmpOld;
+    bmp.CreateCompatibleBitmap(dc, rcClient.Width(), rcClient.Height());
+    bmpOld = SelectObject(dcMemory, bmp);
+    CDC cdc(dcMemory); 
+
+    cdc.DrawFocusRect(&rcClient);
+    cdc.FillSolidRect(&rcCaven, RGB(240, 240, 240)); 
+    std::vector<CLayer*>::iterator it = m_DlgMain->m_Layers.begin();     
+    HDC hdc = CreateCompatibleDC(dc);
+    for (;it != m_DlgMain->m_Layers.end(); ++it)
+    {
+        HGDIOBJ hOld =SelectObject(hdc, (*it)->m_hBitmap);
+        CRect rect = (*it)->GetArea();
+        BitBlt(dcMemory, rect.left, rect.top, rect.Width(), rect.Height(), hdc, 0, 0, SRCCOPY);
+        SelectObject(hdc, hOld);
+    }
+    DeleteObject(hdc);
+    BitBlt(dc, rcClient.left, rcClient.top, rcClient.Width(), rcClient.Height(), dcMemory, 0, 0, SRCCOPY);
+
+    CString strFileName(fileOpenDlg.m_szFileName);
+    SaveBitmapFile(strFileName, bmp, &cdc);  
+    SelectObject(dcMemory, bmpOld);
+    DeleteObject(dcMemory);
+
+    EndPaint(&ps);
+
+    return S_OK;
+}
+
 void COperateDlg::SetMainDlg( CMainDlg* dlg )
 {
     m_DlgMain = dlg;
@@ -139,4 +188,103 @@ void COperateDlg::SetMainDlg( CMainDlg* dlg )
 void COperateDlg::SetStatus( Status statu )
 {
     m_Statu = statu;
+}
+
+BOOL COperateDlg::SaveBitmapFile( CString strFileName, CBitmap &bmp, CDC *pdc )
+{
+    BITMAP bm;
+    bmp.GetBitmap (&bm);
+
+    int nWidth = bm.bmWidth;
+    int nHeight = bm.bmHeight;
+
+    int nLineBits = bm.bmWidthBytes;
+    if ((nLineBits % 8) != 0)
+        nLineBits += 8 - nLineBits%8;
+
+    int nBitCounts = nLineBits * bm.bmHeight ;
+
+    int nBits = 24;//bm.bmBitsPixel;
+    int nBitmapInfoSize = 0;
+
+    if (nBits <= 8)
+    {
+        int nColors = 1 << nBits;
+        int nPalUnitSize = sizeof(RGBQUAD);
+        nBitmapInfoSize = sizeof(BITMAPINFOHEADER) + nPalUnitSize * nColors;    
+    }
+    else
+        nBitmapInfoSize = sizeof(BITMAPINFOHEADER);
+
+    BITMAPINFO*    pbmpinfo = NULL;
+
+    pbmpinfo =(BITMAPINFO *)(new BYTE[nBitmapInfoSize]);
+    ZeroMemory((void *)pbmpinfo,nBitmapInfoSize);
+
+    BITMAPINFOHEADER* pInfoHead = (BITMAPINFOHEADER *)pbmpinfo;
+    ZeroMemory((void *)pInfoHead,sizeof(BITMAPINFOHEADER));
+
+    pInfoHead->biSize = sizeof(BITMAPINFOHEADER);
+    pInfoHead->biBitCount = nBits;
+    pInfoHead->biPlanes = 1;
+    pInfoHead->biSizeImage = nBitCounts;
+    pInfoHead->biCompression = BI_RGB;
+    pInfoHead->biWidth = nWidth;
+    pInfoHead->biHeight = nHeight;
+
+
+    CDC dc;
+    dc.CreateDC(L"DISPLAY", NULL, NULL, NULL);
+
+    int nLx = dc.GetDeviceCaps(LOGPIXELSX);
+    int nLy = dc.GetDeviceCaps(LOGPIXELSY);
+
+    double dbInchPerMeter = 39.375;
+
+    int nPMx = (int)((double)nLx * dbInchPerMeter);
+    int nPMy = (int)((double)nLy * dbInchPerMeter);
+
+    pInfoHead->biXPelsPerMeter = nPMx;//3780;
+    pInfoHead->biYPelsPerMeter = nPMy;//3780;
+
+    if (nBits <= 8)
+    {
+        int nColors = 1 << nBits;
+        GetDIBColorTable(dc.m_hDC,0,nColors,pbmpinfo->bmiColors);
+    }
+
+    BYTE* pBits = NULL;
+
+    pBits=new byte[nBitCounts];
+    ZeroMemory((void *)pBits,nBitCounts);
+
+    GetDIBits(pdc->m_hDC,(HBITMAP)bmp,0,nHeight,pBits,pbmpinfo,DIB_RGB_COLORS);
+
+    BITMAPFILEHEADER    bmfHeader;
+    int nFileHeadSize = sizeof(BITMAPFILEHEADER);
+
+    ZeroMemory((void *)&bmfHeader,sizeof(BITMAPFILEHEADER));
+    bmfHeader.bfType = *(WORD *)"BM";
+    bmfHeader.bfSize = nFileHeadSize + nBitmapInfoSize + nBitCounts;
+    bmfHeader.bfOffBits = sizeof(BITMAPFILEHEADER) + nBitmapInfoSize;
+
+    HANDLE hFile = CreateFile(strFileName, 
+        GENERIC_WRITE,
+        FILE_SHARE_READ, 
+        NULL, 
+        CREATE_ALWAYS,
+        FILE_FLAG_SEQUENTIAL_SCAN,
+        NULL);
+    ATLASSERT(INVALID_HANDLE_VALUE != hFile);
+    SetFilePointer(hFile, 0, 0, FILE_BEGIN);
+    DWORD dwWrittenSize;
+    WriteFile(hFile, &bmfHeader, sizeof(BITMAPFILEHEADER), &dwWrittenSize, NULL);
+    WriteFile(hFile, pbmpinfo, nBitmapInfoSize, &dwWrittenSize, NULL);
+    WriteFile(hFile, pBits, nBitCounts, &dwWrittenSize, NULL);
+    CloseHandle(hFile);
+
+    delete pBits;
+    delete[] pbmpinfo;
+
+    return TRUE;
 }
