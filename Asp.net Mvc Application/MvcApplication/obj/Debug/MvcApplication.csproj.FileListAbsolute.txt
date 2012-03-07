@@ -1,0 +1,5 @@
+F:\7-项目\3-开源项目\Experiments\Asp.net Mvc Application\MvcApplication\bin\MvcApplication.dll
+F:\7-项目\3-开源项目\Experiments\Asp.net Mvc Application\MvcApplication\bin\MvcApplication.pdb
+F:\7-项目\3-开源项目\Experiments\Asp.net Mvc Application\MvcApplication\obj\Debug\ResolveAssemblyReference.cache
+F:\7-项目\3-开源项目\Experiments\Asp.net Mvc Application\MvcApplication\obj\Debug\MvcApplication.dll
+F:\7-项目\3-开源项目\Experiments\Asp.net Mvc Application\MvcApplication\obj\Debug\MvcApplication.pdb
