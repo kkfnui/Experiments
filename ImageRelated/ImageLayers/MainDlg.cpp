@@ -26,6 +26,8 @@ LRESULT CMainDlg::OnInitDialog(UINT /*uMsg*/, WPARAM /*wParam*/, LPARAM /*lParam
 	HICON hIconSmall = (HICON)::LoadImage(_Module.GetResourceInstance(), MAKEINTRESOURCE(IDR_MAINFRAME), 
 		IMAGE_ICON, ::GetSystemMetrics(SM_CXSMICON), ::GetSystemMetrics(SM_CYSMICON), LR_DEFAULTCOLOR);
 	SetIcon(hIconSmall, FALSE);
+    HMENU hMenu = LoadMenu(_Module.GetResourceInstance(),  MAKEINTRESOURCE(IDR_MENU_BAR));
+
     m_operateDlg = new COperateDlg;
     m_operateDlg->Create(m_hWnd);
     m_operateDlg->ShowWindow(SW_NORMAL);
