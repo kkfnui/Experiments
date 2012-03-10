@@ -1,9 +1,7 @@
 ﻿@{
     Layout = null;
 }
-
 <!DOCTYPE html>
-
 <html>
 <head>
     <title>Index</title>
@@ -11,6 +9,13 @@
 <body>
     <div>
         @ViewBag.Content
+        @using(Html.BeginForm()){
+        <p>@Html.TextBox("Id")</p>
+        <p>@Html.TextBox("Name")</p>
+        <input type="submit" value="提交" />
+        }
+        <p>@ViewData["id"]</p>
+        <p>@ViewData["name"]</p>
     </div>
 </body>
 </html>
