@@ -1,0 +1,110 @@
+.minithunder
+{
+	padding:0;
+	margin:0;
+	font-family:"Microsoft YaHei",Arial, Helvetica, sans-serif;
+	color:#333;
+	font-size:12px;
+	text-indent:0;
+}
+.clear
+{
+	clear:both;
+}
+.minithunder_button
+{
+	display:block;
+	width:80px;
+	height:32px;
+}
+div#minithunder_overlayer
+{
+	position:fixed;
+	top:0;
+	left:0;
+	z-index:998;
+	background-color:#000;
+	filter: alpha(opacity=20);
+	opacity: .2;
+	width:100%;
+	height:100%;
+}
+div#minithunder_popBox
+{
+	width:320px;
+	height:188px;
+	padding-top:3px;
+	background:url(../img/top_border.png) top left no-repeat;
+	z-index:999;
+}
+
+div#minithunder_content_container
+{
+	width:320px;
+	height:182px;
+	background:url(../img/h_border.png) top left  repeat-y;
+}
+
+div#minithunder_content_title
+{
+	width:318px;
+	height:46px;
+	margin:0 1px;
+	background:url(../img/title_fill.png) top left repeat-x;
+}
+
+div#minithunder_content_title p.title
+{
+	padding:4px 0 0 12px;
+}
+
+div#minithunder_content_main
+{
+	width:320px;
+	height:136px;
+	padding:8px 0 0 12px;
+}
+div#minithunder_content_main h3
+{
+	font-size:16px;
+	font-weight:500;
+}
+div#minithunder_content_main h3 a
+{
+	color:#85B169;
+}
+div#minithunder_content_main p
+{
+	color:#8D8E8F;
+	margin-top:12px;
+}
+
+div#minithunder_popBox_footer
+{
+	width:320px;
+	height:3px;
+	background:url(../img/bottom_border.png) top left no-repeat;
+}
+div#minithunder_content_operate
+{
+	padding:25px 0 0 116px;
+}
+
+div#minithunder_content_operate  ul  li
+{
+	list-style:none;
+	float:left;
+	margin-right:10px;
+}
+
+a#btnDownload
+{
+	background:url(../img/btnDownload.png) no-repeat top left;
+}
+
+a#btnInstalled
+{
+	background:url(../img/btnInstalled.png) no-repeat top left;
+}
+
+

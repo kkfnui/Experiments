@@ -1,0 +1,123 @@
+﻿<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title>精简版专用链测试页面</title>
+    <link type="text/css" rel="Stylesheet" href="css/default.css" />
+    <link type="text/css" rel="Stylesheet" href="css/minithunder.css" />
+</head>
+<body>
+    <div id="content">
+        <h2 style="text-align:center;">
+            精简版专用链测试页面</h2>
+        <fieldset>
+            <legend>测试操作区</legend>
+            <label class="linkTitle">
+                普通链接：</label>
+            <a href="http://down.sandai.net/mini/ThunderMiniInstall.exe">精简版迅雷</a>
+			<a href="VS2010SP1dvd1.gzip">日志</a>
+            <label class="linkTitle">
+                专用链：</label>
+                <a href="#" onclick='MiniXL.Downloader.download("minithunder://QUFodHRwOi8vcDJzLm5ld2h1YS5jb20vZG93bi9sdWRhc2hpc2V0dXAuemlwWlo=","","","腾讯QQ 2011 正式版")'>腾讯QQ 2011 正式版</a>
+                <script type="text/javascript" src="js/MiniXLPrivateLink.js"></script>
+
+			<div style="margin-top:10px;">
+				<label class="linkTitle" for="txtDecode">明文：</label><input id="txtDecode" type="text" value="http://down.sandai.net/mini/ThunderMiniInstall.exe"/>
+			</div>
+			<div style="margin-top:10px;">
+				<label class="linkTitle" for="txtEncode">密文：</label><input id="txtEncode" type="text" />
+			</div>
+			<div>
+				<label class="linkTitle">操作：</label><input id="btnEncode" type="button" value="加密" />
+			</div>
+        </fieldset>
+        <h3>
+            逻辑说明</h3>
+        <div>
+            <p>
+                精简版迅雷专用链脚本的主要功能是检测用户是否已经安装精简版迅雷，对未安装精简版的用户提供良好的交互体检。本脚本目前只兼容IE和Chrome浏览器，其他的浏览器暂不兼容。</p>
+            <p>
+                用户安装精简版迅雷时，我们会向系统注册minithunder://这个协议。所以任何以minithunder://开始的链接都可以拉起精简版迅雷，比如这个链接<a
+                    href="minithunder://这只是测试">测试</a>。可以查看注册表中下列项：
+                <p class="code">
+                    HKEY_CLASSES_ROOT\minithunder<br />
+                    HKEY_CLASSES_ROOT\minithunder\shell\open
+                </p>
+            </p>
+            <p>
+                如果没有安装迅雷精简版或则不支持的浏览器点击专用链的时候会弹出如下的模态框：
+            </p>
+            <div style="text-align: center;">
+                <img src="img/popUp.jpg" alt="提示框">
+            </div>
+            <p>
+                如果用户点击下载安装，就会到服务器去下载。如果用户点击我已安装，则会调用系统的协议去下载该资源，且针对此浏览器以后不在提示。</p>
+        </div>
+        <h3>
+            脚本接口说明</h3>
+        <fieldset>
+            <legend>接口1</legend>
+            <p class="code">
+                function download(privateUrl, cid, refer, name)
+            </p> 
+			<div>
+				<h4>参数说明：</h4>
+				<ol>
+					<li>privateUrl:精简版迅雷专用链（不为空）</li>
+					<li>cid:如果资源有cid可以传递cid（可空，ie浏览器有效）</li>
+					<li>refer:资源的应用页（可空，仅ie浏览器有效）</li>
+					<li>name:资源名称（可空，仅ie浏览器有效）</li>
+				</ol>
+			</div>
+        </fieldset>
+
+        <fieldset>
+            <legend>接口2</legend>
+            <p class="code">
+                function downloadUrl(url, cid, refer, name)
+            </p> 
+			<div>
+				<h4>参数说明：</h4>
+				<ol>
+					<li>url:原始资源的地址（不为空）</li>
+					<li>cid:如果资源有cid可以传递cid（可空，ie浏览器有效）</li>
+					<li>refer:资源的应用页（可空，仅ie浏览器有效）</li>
+					<li>name:资源名称（可空，仅ie浏览器有效）</li>
+				</ol>
+        </div>
+        </fieldset>
+		<div id="example">
+			<h4>示例</h4>
+			<p>
+				<label >使用真实链接：</label>
+				<a href="#example" onclick='MiniXL.Downloader.download("minithunder://QUFodHRwOi8vZG93bi5zYW5kYWkubmV0L21pbmkvVGh1bmRlck1pbmlJbnN0YWxsLmV4ZVpa", "", window.location, "测试资源")'>下载链接</a>
+			</p>
+			<p>
+				<label>使用专用链：</label>
+				<a href="#example" onclick='MiniXL.Downloader.downloadUrl("http://down.sandai.net/mini/ThunderMiniInstall.exe", "", window.location, "测试资源")'>下载链接</a>
+			</p>
+		<div>
+			<pre class="code">
+&lt;p&gt;
+	&lt;label&gt;使用真实链接：&lt;/label&gt;
+	&lt;a href="#example" onclick='MiniXL.Downloader.download(
+	"minithunder://QUFodHRwOi8vZG93bi5zYW5kYWkubmV0L21pbmkvVGh1bmRlck1pbmlJbnN0YWxsLmV4ZVpa", 
+	"", window.location, "测试资源")'&gt;下载链接&lt;/a&gt;
+&lt;/p&gt;
+&lt;p&gt;
+	&lt;label&gt;使用专用链：&lt;/label&gt;
+	&lt;a href="#example" onclick='MiniXL.Downloader.downloadUrl(
+	"http://down.sandai.net/mini/ThunderMiniInstall.exe", 
+	"", window.location, "测试资源")' &gt;下载链接&lt;/a&gt;
+&lt;/p&gt;
+			</pre>
+    </div>
+</body>
+</html>
+<script type="text/javascript">
+$("btnEncode").onclick = function(){
+	var txt = $("txtDecode").value;
+	$("txtEncode").value = MiniXL.Base64.ThunderEncode(txt);
+};
+</script>
+
+
