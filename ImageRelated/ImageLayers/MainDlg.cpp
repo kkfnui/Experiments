@@ -101,12 +101,18 @@ LRESULT CMainDlg::OnOK(WORD /*wNotifyCode*/, WORD wID, HWND /*hWndCtl*/, BOOL& /
 	CRect rect;
 	rect.left = 50;
 	rect.top = 150;
-	rect.bottom = 500;
-	rect.right = 400; 
+	int iHeight = lpBitmapInfo->bmiHeader.biHeight;
+	if (lpBitmapInfo->bmiHeader.biHeight < 0)
+	{
+		iHeight = -lpBitmapInfo->bmiHeader.biHeight;
+	}
+	rect.bottom = rect.top + iHeight ;
+	rect.right = rect.left + lpBitmapInfo->bmiHeader.biWidth; 
 
 	layer->SetArea(rect);
-	Invalidate();
 	m_Layers.push_back(layer);
+
+	Invalidate();
 
     CString strTitle;
     strTitle.Format(L"ͼƬ%d", m_Layers.size()-1);
@@ -117,8 +123,9 @@ LRESULT CMainDlg::OnOK(WORD /*wNotifyCode*/, WORD wID, HWND /*hWndCtl*/, BOOL& /
 
 LRESULT CMainDlg::OnCancel(WORD /*wNotifyCode*/, WORD wID, HWND /*hWndCtl*/, BOOL& /*bHandled*/)
 {
-	EndDialog(wID);
-	return 0;
+	DestroyWindow();
+	::PostQuitMessage(wID);
+	return S_OK;
 }
 
 HBITMAP CMainDlg::ConvertDIB2DDB( CDCHandle dc, LPBITMAPINFO bitmapInfo )

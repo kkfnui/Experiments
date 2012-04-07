@@ -6,6 +6,7 @@
 #include "resource.h"
 
 #include "MainDlg.h"
+#include "MouseWheelFilter.h"
 
 CAppModule _Module;
 
@@ -18,21 +19,26 @@ int WINAPI _tWinMain(HINSTANCE hInstance, HINSTANCE /*hPrevInstance*/, LPTSTR /*
 	ATLASSERT(SUCCEEDED(hRes));
 
 	// this resolves ATL window thunking problem when Microsoft Layer for Unicode (MSLU) is used
-	::DefWindowProc(NULL, 0, 0, 0L);
+	//::DefWindowProc(NULL, 0, 0, 0L);
 
 	AtlInitCommonControls(ICC_BAR_CLASSES);	// add flags to support other controls
 
 	hRes = _Module.Init(NULL, hInstance);
 	ATLASSERT(SUCCEEDED(hRes));
 
-	int nRet = 0;
-	// BLOCK: Run application
-	{
-		CMainDlg dlgMain;
-		nRet = dlgMain.DoModal();
-	}
+	CMessageLoop theLoop;
+	CMessageFilter * filter = new CMouseWheelFilter();
+	theLoop.AddMessageFilter(filter);
+	_Module.AddMessageLoop(&theLoop);
 
-	_Module.Term();
+	
+	CMainDlg dlgMain;
+	dlgMain.Create(NULL);
+	dlgMain.ShowWindow(SW_NORMAL);
+	int nRet = theLoop.Run();
+	delete filter;
+	_Module.RemoveMessageLoop();
+	//_Module.Term();
 	::CoUninitialize();
 
 	return nRet;
