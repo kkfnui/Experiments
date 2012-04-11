@@ -1,13 +1,16 @@
 #include "StdAfx.h"
 #include "Layer.h"
 
-CLayer::CLayer(void)
+CLayer::CLayer(void):
+m_dZoom(1.0)
 {
 }
 
-CLayer::CLayer(int nZIndex, HBITMAP hBitmap ):m_nZIndex(nZIndex),m_hBitmap(hBitmap)
+CLayer::CLayer(int nZIndex, HBITMAP hBitmap ):m_nZIndex(nZIndex)
+,m_hBitmap(hBitmap)
+,m_dZoom(1.0)
 {
-
+	m_dZoom = 1.0;
 }
 
 CLayer::~CLayer(void)
@@ -27,3 +30,16 @@ CRect CLayer::GetArea() const
 {
     return m_rcArea;
 }
+
+void CLayer::SetZoom( const float& zoom )
+{
+	m_dZoom = zoom;
+}
+
+float CLayer::GetZoom()
+{
+	return m_dZoom;
+}
+
+
+

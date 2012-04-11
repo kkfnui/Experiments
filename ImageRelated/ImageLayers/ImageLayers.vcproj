@@ -203,6 +203,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\MouseWheelFilter.cpp"
+				>
+			</File>
+			<File
 				RelativePath=".\OperateDlg.cpp"
 				>
 			</File>
@@ -241,6 +245,10 @@
 			</File>
 			<File
 				RelativePath=".\MainDlg.h"
+				>
+			</File>
+			<File
+				RelativePath=".\MouseWheelFilter.h"
 				>
 			</File>
 			<File

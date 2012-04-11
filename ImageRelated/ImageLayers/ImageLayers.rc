@@ -13,7 +13,7 @@
 #undef APSTUDIO_READONLY_SYMBOLS
 
 /////////////////////////////////////////////////////////////////////////////
-// Chinese (P.R.C.) resources
+// 中文(中华人民共和国) resources
 
 #if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_CHS)
 #ifdef _WIN32
@@ -43,10 +43,10 @@ CAPTION "ImageLayers"
 MENU IDR_MENU_BAR
 FONT 8, "MS Sans Serif", 0, 0, 0x0
 BEGIN
-    DEFPUSHBUTTON   "加载",IDOK,7,7,50,14
-    PUSHBUTTON      "Cancel",IDCANCEL,65,7,50,14
-    PUSHBUTTON      "Save",ID_SAVE,127,7,50,14
-    CONTROL         "",IDC_LIST_IMAGE_LAYERS,"SysListView32",LVS_LIST | LVS_SHOWSELALWAYS | LVS_ALIGNLEFT | WS_BORDER | WS_TABSTOP,522,7,102,414
+    DEFPUSHBUTTON   "加载",IDOK,7,7,50,14,NOT WS_TABSTOP
+    PUSHBUTTON      "Cancel",IDCANCEL,65,7,50,14,NOT WS_TABSTOP
+    PUSHBUTTON      "Save",ID_SAVE,127,7,50,14,NOT WS_TABSTOP
+    CONTROL         "",IDC_LIST_IMAGE_LAYERS,"SysListView32",LVS_LIST | LVS_SHOWSELALWAYS | LVS_ALIGNLEFT | WS_BORDER,522,7,102,414
 END
 
 IDD_OPERATE DIALOGEX 0, 0, 386, 269
@@ -139,12 +139,12 @@ BEGIN
     END
 END
 
-#endif    // Chinese (P.R.C.) resources
+#endif    // 中文(中华人民共和国) resources
 /////////////////////////////////////////////////////////////////////////////
 
 
 /////////////////////////////////////////////////////////////////////////////
-// English (U.S.) resources
+// 英语(美国) resources
 
 #if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_ENU)
 #ifdef _WIN32
@@ -336,7 +336,7 @@ BEGIN
     ATL_IDS_MRU_FILE        "Open this document"
 END
 
-#endif    // English (U.S.) resources
+#endif    // 英语(美国) resources
 /////////////////////////////////////////////////////////////////////////////
 
 

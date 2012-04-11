@@ -19,7 +19,8 @@ public:
         MESSAGE_HANDLER(ID_SELECT, OnSelect)
         MESSAGE_HANDLER(ID_SAVE, OnSave)
         COMMAND_ID_HANDLER(ID_PROPERTY, OnSetProperty)
-    END_MSG_MAP()
+		MESSAGE_HANDLER(WM_MOUSEWHEEL, OnMouseWheel)
+	END_MSG_MAP()
 
     LRESULT OnInitDialog(UINT /*uMsg*/, WPARAM /*wParam*/, LPARAM /*lParam*/, BOOL& /*bHandled*/);
     LRESULT OnPaint(UINT /*uMsg*/, WPARAM /*wParam*/, LPARAM /*lParam*/, BOOL& /*bHandled*/);
@@ -33,10 +34,14 @@ public:
     void SetMainDlg(CMainDlg * dlg);
     void SetStatus(Status statu);
     BOOL SaveBitmapFile(CString strFileName, CBitmap &bmp, CDC *pdc);
+private:
+	CRect ZoomRect(const CRect& oldRect, const float& zoom);
 
 private:
     CPoint m_ptLastClicked;
     CMainDlg * m_DlgMain;
     Status m_Statu;
     CLayer* m_pSelectedLayer;
+public:
+	LRESULT OnMouseWheel(UINT /*uMsg*/, WPARAM /*wParam*/, LPARAM /*lParam*/, BOOL& /*bHandled*/);
 };

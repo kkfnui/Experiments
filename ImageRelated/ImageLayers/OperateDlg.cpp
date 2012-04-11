@@ -4,7 +4,7 @@
 #include "MainDlg.h"
 #include "PropertyDlg.h"
 
-COperateDlg::COperateDlg(void)
+COperateDlg::COperateDlg(void):m_pSelectedLayer(NULL)
 {
 }
 
@@ -14,7 +14,7 @@ COperateDlg::~COperateDlg(void)
 
 LRESULT COperateDlg::OnInitDialog( UINT /*uMsg*/, WPARAM /*wParam*/, LPARAM /*lParam*/, BOOL& /*bHandled*/ )
 {
-
+	SetFocus();
     return S_OK;
 }
 
@@ -35,17 +35,29 @@ LRESULT COperateDlg::OnPaint( UINT /*uMsg*/, WPARAM /*wParam*/, LPARAM /*lParam*
     bmp.CreateCompatibleBitmap(dc, rcClient.Width(), rcClient.Height());
     bmpOld = SelectObject(dcMemory, bmp);
     CDC cdc(dcMemory); 
-
-    cdc.DrawFocusRect(&rcClient);
+	cdc.DrawFocusRect(&rcClient);
     cdc.FillSolidRect(&rcCaven, RGB(240, 240, 240)); 
     std::vector<CLayer*>::iterator it = m_DlgMain->m_Layers.begin();     
     HDC hdc = CreateCompatibleDC(dc);
     for (;it != m_DlgMain->m_Layers.end(); ++it)
     {
-        HGDIOBJ hOld =SelectObject(hdc, (*it)->m_hBitmap);
-        CRect rect = (*it)->GetArea();
-        BitBlt(dcMemory, rect.left, rect.top, rect.Width(), rect.Height(), hdc, 0, 0, SRCCOPY);
-        SelectObject(hdc, hOld);
+		HGDIOBJ hOld =SelectObject(hdc, (*it)->m_hBitmap);	
+		CRect rect = (*it)->GetArea();
+
+		float zoom = (*it)->GetZoom();
+		if(zoom != 1.0)
+		{
+			CRect rcDes = ZoomRect(rect, zoom);
+			//SetStretchBltMode(hdc, COLORONCOLOR);
+			StretchBlt(dcMemory, rcDes.left, rcDes.top, rcDes.Width(), rcDes.Height()
+				, hdc, 0, 0, rect.Width(), rect.Height(), SRCCOPY);
+		}
+		else
+		{ 
+			BitBlt(dcMemory, rect.left, rect.top, rect.Width(), rect.Height(), hdc, 0, 0, SRCCOPY);
+		}
+		SelectObject(hdc, hOld);
+
     }
     DeleteObject(hdc);
     BitBlt(dc, rcClient.left, rcClient.top, rcClient.Width(), rcClient.Height(), dcMemory, 0, 0, SRCCOPY);
@@ -59,6 +71,7 @@ LRESULT COperateDlg::OnPaint( UINT /*uMsg*/, WPARAM /*wParam*/, LPARAM /*lParam*
 
 LRESULT COperateDlg::OnLeftButtonDown( UINT /*uMsg*/, WPARAM /*wParam*/, LPARAM lParam, BOOL& /*bHandled*/ )
 {
+	SetFocus();
     CPoint pt(GET_X_LPARAM(lParam), GET_Y_LPARAM(lParam));
     if (m_Statu == PREMOVE)
     {
@@ -287,4 +300,34 @@ BOOL COperateDlg::SaveBitmapFile( CString strFileName, CBitmap &bmp, CDC *pdc )
     delete[] pbmpinfo;
 
     return TRUE;
+}
+
+LRESULT COperateDlg::OnMouseWheel(UINT /*uMsg*/, WPARAM wParam, LPARAM /*lParam*/, BOOL& /*bHandled*/)
+{
+	WORD fwKeys = GET_KEYSTATE_WPARAM(wParam);
+	WORD zDelta = GET_WHEEL_DELTA_WPARAM(wParam);
+	if (fwKeys == MK_CONTROL && m_pSelectedLayer != NULL)
+	{		
+		float fZoom =m_pSelectedLayer->GetZoom();
+		fZoom = zDelta == 120 ? fZoom / 0.9 : fZoom * 0.9;
+		m_pSelectedLayer->SetZoom(fZoom);
+		Invalidate(FALSE);
+	}
+
+	return 0;
+}
+
+CRect COperateDlg::ZoomRect( const CRect& oldRect, const float& zoom )
+{
+	long x = oldRect.left + oldRect.Width()/2;
+	long y = oldRect.top + oldRect.Height()/2;
+	CPoint middle(x, y);
+	int iWidth = oldRect.Width()*zoom;
+	int iHeght = oldRect.Height()*zoom;
+	CRect rcNew;
+	rcNew.left = x - iWidth/2;
+	rcNew.top = y - iHeght/2;
+	rcNew.right = rcNew.left + iWidth;
+	rcNew.bottom = rcNew.top + iHeght;
+	return rcNew;
 }
