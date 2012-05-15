@@ -1,0 +1,13 @@
+*.ncb
+*.aps
+*.user
+*.lnt
+*.obj
+*.ilk
+*.pdb
+*.res
+*.dep
+BuildLog.htm
+*.idb
+*.pch
+*.manifest
